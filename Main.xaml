@@ -1,0 +1,316 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="829,4287" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="44">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>UiPath.Excel</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="19">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="序列" sap:VirtualizedContainerService.HintSize="789,4167" sap2010:WorkflowViewState.IdRef="Sequence_6">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="fareExcelPath" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtFareData" />
+      <Variable x:TypeArguments="x:String" Default="https://transit.yahoo.co.jp" Name="webSiteUrl" />
+      <Variable x:TypeArguments="x:String" Name="strPrice" />
+      <Variable x:TypeArguments="sd:DataTable" Name="dtPrice" />
+      <Variable x:TypeArguments="x:String" Name="strDtPrice" />
+      <Variable x:TypeArguments="ui:WorkbookApplication" Name="wbFare" />
+      <Variable x:TypeArguments="x:String" Name="EmailSender" />
+      <Variable x:TypeArguments="x:String" Name="EmailReceiver" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:InputDialog Options="{x:Null}" DisplayName="输入对话框" sap:VirtualizedContainerService.HintSize="751,92" sap2010:WorkflowViewState.IdRef="InputDialog_1" IsPassword="False" Label="请输入受信人email账户" Title="输入">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[EmailReceiver]</OutArgument>
+      </ui:InputDialog.Result>
+    </ui:InputDialog>
+    <ui:InputDialog Options="{x:Null}" DisplayName="输入对话框" sap:VirtualizedContainerService.HintSize="751,92" sap2010:WorkflowViewState.IdRef="InputDialog_2" IsPassword="False" Label="请输入送信人email账户" Title="输入">
+      <ui:InputDialog.Result>
+        <OutArgument x:TypeArguments="x:String">[EmailSender]</OutArgument>
+      </ui:InputDialog.Result>
+    </ui:InputDialog>
+    <ui:SelectFile DisplayName="“请选择需要精算的交通费文件”" Filter="All files (*.*)|*.*" sap:VirtualizedContainerService.HintSize="751,22" sap2010:WorkflowViewState.IdRef="SelectFile_1" SelectedFile="[fareExcelPath]" />
+    <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel 应用程序范围" sap:VirtualizedContainerService.HintSize="751,260" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" Workbook="[wbFare]" WorkbookPath="[fareExcelPath]">
+      <ui:ExcelApplicationScope.Body>
+        <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="执行" sap:VirtualizedContainerService.HintSize="368,151" sap2010:WorkflowViewState.IdRef="Sequence_3">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:ExcelReadRange AddHeaders="True" DataTable="[dtFareData]" DisplayName="读取范围" sap:VirtualizedContainerService.HintSize="330,59" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" SheetName="交通費精算">
+              <ui:ExcelReadRange.Range>
+                <InArgument x:TypeArguments="x:String">
+                  <Literal x:TypeArguments="x:String" Value="" />
+                </InArgument>
+              </ui:ExcelReadRange.Range>
+            </ui:ExcelReadRange>
+          </Sequence>
+        </ActivityAction>
+      </ui:ExcelApplicationScope.Body>
+    </ui:ExcelApplicationScope>
+    <ui:BuildDataTable DataTable="[dtPrice]" DisplayName="构建数据表" sap:VirtualizedContainerService.HintSize="751,59" sap2010:WorkflowViewState.IdRef="BuildDataTable_2" TableInfo="&lt;NewDataSet&gt;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xA;      &lt;xs:complexType&gt;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xA;            &lt;xs:complexType&gt;&#xA;              &lt;xs:sequence&gt;&#xA;                &lt;xs:element name=&quot;price&quot; minOccurs=&quot;0&quot;&gt;&#xA;                  &lt;xs:simpleType&gt;&#xA;                    &lt;xs:restriction base=&quot;xs:string&quot;&gt;&#xA;                      &lt;xs:maxLength value=&quot;100&quot; /&gt;&#xA;                    &lt;/xs:restriction&gt;&#xA;                  &lt;/xs:simpleType&gt;&#xA;                &lt;/xs:element&gt;&#xA;              &lt;/xs:sequence&gt;&#xA;            &lt;/xs:complexType&gt;&#xA;          &lt;/xs:element&gt;&#xA;        &lt;/xs:choice&gt;&#xA;      &lt;/xs:complexType&gt;&#xA;    &lt;/xs:element&gt;&#xA;  &lt;/xs:schema&gt;&#xA;&lt;/NewDataSet&gt;" />
+    <ui:OpenBrowser UiBrowser="{x:Null}" BrowserType="Chrome" DisplayName="打开浏览器" Hidden="False" sap:VirtualizedContainerService.HintSize="751,2167" sap2010:WorkflowViewState.IdRef="OpenBrowser_1" NewSession="True" Private="False" Url="https://transit.yahoo.co.jp">
+      <ui:OpenBrowser.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="序列" sap:VirtualizedContainerService.HintSize="721,2068" sap2010:WorkflowViewState.IdRef="Sequence_19">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="x:Int32" Name="drIndex" />
+              <Variable x:TypeArguments="sd:DataRow" Name="dr" />
+            </Sequence.Variables>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="683,1976" sap2010:WorkflowViewState.IdRef="Sequence_5">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <ui:ForEachRow CurrentIndex="[drIndex]" DataTable="[dtFareData]" DisplayName="对于每一个行" sap:VirtualizedContainerService.HintSize="645,1884" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+                <ui:ForEachRow.Body>
+                  <ActivityAction x:TypeArguments="sd:DataRow">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                    </ActivityAction.Argument>
+                    <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="599,1733" sap2010:WorkflowViewState.IdRef="Sequence_4">
+                      <Sequence.Variables>
+                        <Variable x:TypeArguments="ui:UiElement" Name="sortButton" />
+                        <Variable x:TypeArguments="x:Int32" Name="intPrice" />
+                      </Sequence.Variables>
+                      <sap:WorkflowViewStateService.ViewState>
+                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                        </scg:Dictionary>
+                      </sap:WorkflowViewStateService.ViewState>
+                      <ui:TypeInto DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" Activate="True" ClickBeforeTyping="False" DisplayName="输入信息 'INPUT  sfrom'" EmptyField="False" sap:VirtualizedContainerService.HintSize="561,134" sap2010:WorkflowViewState.IdRef="TypeInto_3" SendWindowMessages="False" SimulateType="True" Text="[row(&quot;出発地&quot;).ToString]">
+                        <ui:TypeInto.Target>
+                          <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="58c57a8003293e456dd8bb80886595fb" Selector="&lt;webctrl id='sfrom' tag='INPUT' /&gt;" WaitForReady="INTERACTIVE" />
+                        </ui:TypeInto.Target>
+                      </ui:TypeInto>
+                      <ui:TypeInto DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" Activate="True" ClickBeforeTyping="False" DisplayName="输入信息 'INPUT  sto'" EmptyField="False" sap:VirtualizedContainerService.HintSize="561,134" sap2010:WorkflowViewState.IdRef="TypeInto_4" SendWindowMessages="False" SimulateType="True" Text="[row(&quot;到着地&quot;).ToString]">
+                        <ui:TypeInto.Target>
+                          <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="da1998e03d2d9a2363a4814dd6ad5193" Selector="&lt;webctrl id='sto' tag='INPUT' /&gt;" WaitForReady="INTERACTIVE" />
+                        </ui:TypeInto.Target>
+                      </ui:TypeInto>
+                      <ui:Click DelayBefore="{x:Null}" DelayMS="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="单击 'INPUT  searchModuleSubm...'" sap:VirtualizedContainerService.HintSize="561,106" sap2010:WorkflowViewState.IdRef="Click_3" KeyModifiers="None" MouseButton="BTN_LEFT" SendWindowMessages="False" SimulateClick="False">
+                        <ui:Click.CursorPosition>
+                          <ui:CursorPosition Position="Center">
+                            <ui:CursorPosition.OffsetX>
+                              <InArgument x:TypeArguments="x:Int32" />
+                            </ui:CursorPosition.OffsetX>
+                            <ui:CursorPosition.OffsetY>
+                              <InArgument x:TypeArguments="x:Int32" />
+                            </ui:CursorPosition.OffsetY>
+                          </ui:CursorPosition>
+                        </ui:Click.CursorPosition>
+                        <ui:Click.Target>
+                          <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="fb119d79ac9452edf433e52f53a08c61" Selector="&lt;webctrl id='searchModuleSubmit' tag='INPUT' /&gt;" WaitForReady="INTERACTIVE" />
+                        </ui:Click.Target>
+                      </ui:Click>
+                      <ui:Click DelayBefore="{x:Null}" DelayMS="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="单击 'A '" sap:VirtualizedContainerService.HintSize="561,106" sap2010:WorkflowViewState.IdRef="Click_4" KeyModifiers="None" MouseButton="BTN_LEFT" SendWindowMessages="False" SimulateClick="False">
+                        <ui:Click.CursorPosition>
+                          <ui:CursorPosition Position="Center">
+                            <ui:CursorPosition.OffsetX>
+                              <InArgument x:TypeArguments="x:Int32" />
+                            </ui:CursorPosition.OffsetX>
+                            <ui:CursorPosition.OffsetY>
+                              <InArgument x:TypeArguments="x:Int32" />
+                            </ui:CursorPosition.OffsetY>
+                          </ui:CursorPosition>
+                        </ui:Click.CursorPosition>
+                        <ui:Click.Target>
+                          <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="2f5d3c35a1b96622a9b3d8200c215a77" Selector="&lt;webctrl aaname='[安]料金の安い順' parentid='tabflt' tag='A' /&gt;" WaitForReady="INTERACTIVE" />
+                        </ui:Click.Target>
+                      </ui:Click>
+                      <Sequence DisplayName="数据抓取" sap:VirtualizedContainerService.HintSize="561,538" sap2010:WorkflowViewState.IdRef="Sequence_17">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:BrowserScope Browser="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" UiBrowser="{x:Null}" BrowserType="Chrome" DisplayName="附加浏览器 '          Page'" sap:VirtualizedContainerService.HintSize="430,446" sap2010:WorkflowViewState.IdRef="BrowserScope_6" InformativeScreenshot="ae3bc1452aac000c8b1c57d18321bbab" Selector="&lt;html app='chrome.exe' title='「*」から「*」への乗換案内 - Yahoo!路線情報' /&gt;">
+                          <ui:BrowserScope.Body>
+                            <ActivityAction x:TypeArguments="x:Object">
+                              <ActivityAction.Argument>
+                                <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                              </ActivityAction.Argument>
+                              <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="368,300" sap2010:WorkflowViewState.IdRef="Sequence_16">
+                                <Sequence.Variables>
+                                  <Variable x:TypeArguments="sd:DataTable" Name="dtScrabedData" />
+                                </Sequence.Variables>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <ui:ExtractData NextLinkSelector="{x:Null}" ContinueOnError="True" DataTable="[dtScrabedData]" DelayBetweenPagesMS="300" DisplayName="提取结构化数据 'UL  rsltlst'" ExtractMetadata="&lt;extract&gt;&lt;column exact='1' name='Column1' attr='text'&gt;&lt;webctrl tag='li'/&gt;&lt;webctrl tag='dl' idx='1'/&gt;&lt;webctrl tag='dd' idx='1'/&gt;&lt;webctrl tag='ul' idx='1'/&gt;&lt;webctrl tag='li' class='fare' idx='1'/&gt;&lt;/column&gt;&lt;/extract&gt;" sap:VirtualizedContainerService.HintSize="330,106" sap2010:WorkflowViewState.IdRef="ExtractData_6" MaxNumberOfResults="100">
+                                  <ui:ExtractData.Target>
+                                    <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="5ea2d6bdf08e557a52cbb502ead781b2" Selector="&lt;webctrl id='rsltlst' tag='UL' /&gt;" WaitForReady="COMPLETE" />
+                                  </ui:ExtractData.Target>
+                                </ui:ExtractData>
+                                <Assign DisplayName="赋值" sap:VirtualizedContainerService.HintSize="330,62" sap2010:WorkflowViewState.IdRef="Assign_6">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[strPrice]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[dtScrabedData.Rows(0)(0).ToString]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                              </Sequence>
+                            </ActivityAction>
+                          </ui:BrowserScope.Body>
+                        </ui:BrowserScope>
+                      </Sequence>
+                      <If Condition="[row(&quot;往復&quot;).ToString  =  &quot;○&quot;]" DisplayName="IF条件" sap:VirtualizedContainerService.HintSize="561,215" sap2010:WorkflowViewState.IdRef="If_1">
+                        <If.Then>
+                          <Assign DisplayName="赋值" sap:VirtualizedContainerService.HintSize="260,62" sap2010:WorkflowViewState.IdRef="Assign_7">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:Int32">[intPrice]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:Int32">[2*Integer.Parse(strPrice.Substring(0,strPrice.Length-1))]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                        </If.Then>
+                        <If.Else>
+                          <Assign DisplayName="赋值" sap:VirtualizedContainerService.HintSize="260,62" sap2010:WorkflowViewState.IdRef="Assign_8">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:Int32">[intPrice]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:Int32">[Integer.Parse(strPrice.Substring(0,strPrice.Length-1))]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                        </If.Else>
+                      </If>
+                      <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[new Object(){intPrice.ToString &amp; &quot;円&quot;}]" DataTable="[dtPrice]" DisplayName="添加数据行" sap:VirtualizedContainerService.HintSize="561,22" sap2010:WorkflowViewState.IdRef="AddDataRow_3" />
+                      <ui:Click DelayBefore="{x:Null}" DelayMS="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="单击 'IMG'" sap:VirtualizedContainerService.HintSize="561,106" sap2010:WorkflowViewState.IdRef="Click_5" KeyModifiers="None" MouseButton="BTN_LEFT" SendWindowMessages="False" SimulateClick="False">
+                        <ui:Click.CursorPosition>
+                          <ui:CursorPosition Position="Center">
+                            <ui:CursorPosition.OffsetX>
+                              <InArgument x:TypeArguments="x:Int32" />
+                            </ui:CursorPosition.OffsetX>
+                            <ui:CursorPosition.OffsetY>
+                              <InArgument x:TypeArguments="x:Int32" />
+                            </ui:CursorPosition.OffsetY>
+                          </ui:CursorPosition>
+                        </ui:Click.CursorPosition>
+                        <ui:Click.Target>
+                          <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="5cd05eee7203ffff7a89dce772562034" Selector="&lt;webctrl parentid='msthdLogo' tag='IMG' /&gt;" WaitForReady="INTERACTIVE" />
+                        </ui:Click.Target>
+                      </ui:Click>
+                    </Sequence>
+                  </ActivityAction>
+                </ui:ForEachRow.Body>
+              </ui:ForEachRow>
+            </Sequence>
+          </Sequence>
+        </ActivityAction>
+      </ui:OpenBrowser.Body>
+    </ui:OpenBrowser>
+    <ui:CloseApplication DisplayName="关闭应用程序 'chrome.exe 乗換案内、時刻表、運行情報'" sap:VirtualizedContainerService.HintSize="751,106" sap2010:WorkflowViewState.IdRef="CloseApplication_1">
+      <ui:CloseApplication.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="ed3779343fb02846135e26129e7e78f2" Selector="&lt;html app='chrome.exe' title='乗換案内、時刻表、運行情報 - Yahoo!路線情報' /&gt;" WaitForReady="INTERACTIVE" />
+      </ui:CloseApplication.Target>
+    </ui:CloseApplication>
+    <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel 应用程序范围" sap:VirtualizedContainerService.HintSize="751,288" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_2" WorkbookPath="[fareExcelPath]">
+      <ui:ExcelApplicationScope.Body>
+        <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="执行" sap:VirtualizedContainerService.HintSize="368,179" sap2010:WorkflowViewState.IdRef="Sequence_18">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:ExcelWriteRange AddHeaders="False" DataTable="[dtPrice]" DisplayName="写入范围" sap:VirtualizedContainerService.HintSize="330,87" sap2010:WorkflowViewState.IdRef="ExcelWriteRange_1" SheetName="交通費精算" StartingCell="G2" />
+          </Sequence>
+        </ActivityAction>
+      </ui:ExcelApplicationScope.Body>
+    </ui:ExcelApplicationScope>
+    <ui:ExcelCloseWorkbook DisplayName="关闭工作簿" sap:VirtualizedContainerService.HintSize="751,59" sap2010:WorkflowViewState.IdRef="ExcelCloseWorkbook_2" Workbook="[wbFare]" />
+    <ui:CommentOut DisplayName="注释掉" sap:VirtualizedContainerService.HintSize="751,276" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="忽略的活动" sap:VirtualizedContainerService.HintSize="368,198" sap2010:WorkflowViewState.IdRef="Sequence_20">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:CloseApplication DisplayName="关闭应用程序 'EXCEL.EXE 交通費精算_213071....'" sap:VirtualizedContainerService.HintSize="330,106" sap2010:WorkflowViewState.IdRef="CloseApplication_2">
+            <ui:CloseApplication.Target>
+              <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" TimeoutMS="{x:Null}" InformativeScreenshot="39b99067fbb8c558e9a5db4541058402" Selector="&lt;wnd app='excel.exe' cls='XLMAIN' title='交通費精算_213071.xlsx - Excel' /&gt;" WaitForReady="INTERACTIVE" />
+            </ui:CloseApplication.Target>
+          </ui:CloseApplication>
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
+    <ui:SendOutlookMail Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" TimeoutMS="{x:Null}" Account="[EmailSender]" Body="[&quot;你好:&quot;+ Chr(10) + Chr(10) + &quot;交通费精算.xlsx在附件。&quot; + Chr(10) + Chr(10) + &quot;任港&quot; + chr(10) + chr(10) + System.DateTime.Now.ToString]" DisplayName="发送 Outlook 邮件消息" sap:VirtualizedContainerService.HintSize="751,155" sap2010:WorkflowViewState.IdRef="SendOutlookMail_1" IsBodyHtml="False" IsDraft="False" Subject="UiPath练习题_交通费精算" To="[EmailReceiver]">
+      <ui:SendOutlookMail.Files>
+        <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4">
+          <InArgument x:TypeArguments="x:String">[fareExcelPath]</InArgument>
+        </scg:List>
+      </ui:SendOutlookMail.Files>
+    </ui:SendOutlookMail>
+    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" Buttons="Ok" DisplayName="消息框" sap:VirtualizedContainerService.HintSize="751,59" sap2010:WorkflowViewState.IdRef="MessageBox_5" Text="[&quot;Process Success！&quot;]" TopMost="True" />
+  </Sequence>
+</Activity>
